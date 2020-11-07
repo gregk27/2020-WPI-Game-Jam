@@ -1,16 +1,32 @@
 const express = require("express");
 var bodyParser = require('body-parser');
-const e = require("express");
+const mysql = require("mysql");
+const util = require("util")
 var app = express();
+var secrets = require("./secrets");
+
+
+var connection = mysql.createConnection({
+    host: secrets.hostname,
+    user: secrets.user,
+    password: secrets.password,
+    database: secrets.database
+})
+
+// node native promisify
+const query = util.promisify(connection.query).bind(connection);
+
+connection.connect((err)=>{
+    if(err){
+        console.error("Error connecting: "+err.stack);
+        return;
+    }
+
+    console.log("Database connected successfully")
+});
 
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-
-var totalScore = 0;
-var nextMilestone = 1000;
-var leaderboard = new Map()
-/** {@type {id:string, name:string, score:number}[]} */
-var top = [{id:"0", name:"0", score:0}];
 
 var server = app.listen(2708, ()=>{
     console.log(`Running on ${server.address().address}:${server.address().port}`);
@@ -29,39 +45,28 @@ app.post("/addScore", urlencodedParser, (req, res) =>{
         return;
     }
 
-    let existing;
-    console.log(leaderboard.get(id));
-    if((existing = leaderboard.get(id)) != null){
-        totalScore -= existing.score*1;
-    }
-
+    let totalScore, nextMilestone, top;
     
-    // If the score has increased
-    if((existing != null ? existing.score : 0)< req.body.score) {
-        // Add to leaderboard
-        leaderboard.set(id, {id, name:req.body.name, score:req.body.score});
-        // Variable to prevent multiple inserts
-        let inserted = false;
-        // Update top 10 if necessary
-        for(en of top){
-            console.log(en);
-            if(req.body.score > en.score && !inserted){
-                top.splice(top.indexOf(en), 0, {id, name:req.body.name, score:req.body.score});
-                inserted = true;
-            }
-            if(en.id == req.body.id){
-                top.splice(top.indexOf(en), 1);
+    connection.query("SELECT * FROM scores WHERE id=?", [req.body.id], async (err, result, fields)=>{
+        console.log(result);
+        // Not in table
+        if(result.length == 0){
+            await query("INSERT INTO scores (id, name, score) VALUES (?,?,?)", [req.body.id, req.body.name, req.body.score]);
+        } else {
+            // If the score has increased
+            if(req.body.score > result[0].score){
+                query("UPDATE scores SET score=?, name=? WHERE id=?", [req.body.score, req.body.name, req.body.id], (err, result, fields)=>{
+                    console.log("updated")
+                    console.log(err);
+                    console.log(result);
+                });
             }
         }
-        // Keep at 10 entries
-        if(top.length > 10){
-            top.pop()
-        }
-    }
+        res.sendStatus(200);
+    })
 
-    totalScore += req.body.score*1;
 
-    res.json({totalScore, nextMilestone, top});
+    // res.json({totalScore, nextMilestone, top});
 })
 
 
