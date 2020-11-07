@@ -37,37 +37,27 @@ app.get("/status", (req, res)=>{
 });
 
 app.post("/addScore", urlencodedParser, (req, res) =>{
-    console.log(req.body);
-    let id = req.body.id;
+    // If the id is missing, stop there
     if(req.body.id == undefined){
         console.log("No id");
         res.send("id Undefined");
         return;
     }
 
-    let totalScore, nextMilestone, top;
-    
+    // Get entries with same ID
     connection.query("SELECT * FROM scores WHERE id=?", [req.body.id], async (err, result, fields)=>{
-        console.log(result);
         // Not in table
         if(result.length == 0){
+            // Add the row to scores
             await query("INSERT INTO scores (id, name, score) VALUES (?,?,?)", [req.body.id, req.body.name, req.body.score]);
         } else {
             // If the score has increased
             if(req.body.score > result[0].score){
-                query("UPDATE scores SET score=?, name=? WHERE id=?", [req.body.score, req.body.name, req.body.id], (err, result, fields)=>{
-                    console.log("updated")
-                    console.log(err);
-                    console.log(result);
-                });
+                await query("UPDATE scores SET score=?, name=? WHERE id=?", [req.body.score, req.body.name, req.body.id])
             }
         }
         res.sendStatus(200);
     })
-
-
-    // res.json({totalScore, nextMilestone, top});
 })
-
 
 console.log("Hello world!");
