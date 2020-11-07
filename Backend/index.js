@@ -60,4 +60,11 @@ app.post("/addScore", urlencodedParser, (req, res) =>{
     })
 })
 
+app.get("/scoreData", async (req, res)=>{
+    let data = (await query("SELECT SUM(score),COUNT(*) from scores"))[0];
+
+    let top = await query("SELECT name, score FROM scores ORDER BY score DESC LIMIT 10");
+    res.json({totalScore:data["SUM(score)"], top})
+});
+
 console.log("Hello world!");
