@@ -25,7 +25,7 @@ The score data endpoint can be accessed at `/scoreData`. It returns information 
 
 ### Output
 The following JSON object is returned:
-```JSON
+```
     {
         // The current cumulative score
         "currentScore":int,
