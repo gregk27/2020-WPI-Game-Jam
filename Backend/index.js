@@ -2,9 +2,15 @@ const express = require("express");
 var bodyParser = require('body-parser');
 const mysql = require("mysql");
 const util = require("util")
+const fs = require("fs");
 var app = express();
 var secrets = require("./secrets");
 
+// Unlock configuration
+const unlocks = JSON.parse(fs.readFileSync("./unlocks.json"));
+
+// Index of the next unlock
+var nextUnlock=0;
 
 var connection = mysql.createConnection({
     host: secrets.hostname,
@@ -36,6 +42,22 @@ app.get("/status", (req, res)=>{
     res.send("Alive");
 });
 
+/**
+ * Get the current total score and the score needed for the next unlock
+ * @type {currentScore:number, nextScore:number}
+ */
+async function getUnlockScore(){
+    let unlock = unlocks.unlocks[nextUnlock];
+
+    // Get total score and number of entries above cutoff score
+    let data = (await query("SELECT SUM(score), COUNT(*) from scores WHERE score > ?", [unlock.baseScore * unlock.scaleFactor]))[0];
+  
+    // Calculate next unlock score based on entry count and scaling factor
+    let nextScore = (unlock.baseScore * Math.floor(data["COUNT(*)"] * unlock.scaleFactor + 1));
+
+    return {currentScore:data["SUM(score)"], nextScore};
+}
+
 app.post("/addScore", urlencodedParser, (req, res) =>{
     // If the id is missing, stop there
     if(req.body.id == undefined){
@@ -61,10 +83,12 @@ app.post("/addScore", urlencodedParser, (req, res) =>{
 })
 
 app.get("/scoreData", async (req, res)=>{
-    let data = (await query("SELECT SUM(score),COUNT(*) from scores"))[0];
+    let data = await getUnlockScore();
 
+    // Get to 10 scores
     let top = await query("SELECT name, score FROM scores ORDER BY score DESC LIMIT 10");
-    res.json({totalScore:data["SUM(score)"], top})
+
+    res.json({currentScore:data.currentScore, nextScore:data.nextScore, top})
 });
 
 console.log("Hello world!");

@@ -1,0 +1,11 @@
+{
+    "unlocks":[
+        {
+            "baseScore":100,
+            "name": "First Unlock",
+            "desc": "The first unlock",
+            "scaleFactor":0.1
+        }
+
+    ]
+}
