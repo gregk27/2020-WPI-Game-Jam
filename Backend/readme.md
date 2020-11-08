@@ -2,12 +2,12 @@
 The backend API is used to interface with the leaderboard system and check which features have been unlocked.
 
 The API has 3 endpoints
-- `GET /alive`
+- `GET /status`
 - `POST /addScore`
 - `GET /scoreData`
 
-## Alive (GET)
-The alive endpoint can be accessed at `/alive`. It can be used to check that the server is alive.
+## Status (GET)
+The status endpoint can be accessed at `/status`. It can be used to check that the server is alive.
 ### Output
 "Alive" if the server is alive.
 
