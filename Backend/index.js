@@ -92,7 +92,7 @@ app.get("/scoreData", async (req, res)=>{
     // Get to 10 scores
     let top = await query("SELECT name, score FROM scores ORDER BY score DESC LIMIT 10");
 
-    res.json({currentScore:data.currentScore, nextScore:data.nextScore, top})
+    res.json({currentScore:data.currentScore, nextUnlock, nextScore:data.nextScore, top})
 });
 
 console.log("Hello world!");
