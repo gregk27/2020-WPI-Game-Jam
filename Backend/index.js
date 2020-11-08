@@ -78,6 +78,10 @@ app.post("/addScore", urlencodedParser, (req, res) =>{
                 await query("UPDATE scores SET score=?, name=? WHERE id=?", [req.body.score, req.body.name, req.body.id])
             }
         }
+        let data = await getUnlockScore();
+        if(data.currentScore > data.nextScore){
+            nextUnlock++;
+        }
         res.sendStatus(200);
     })
 })
