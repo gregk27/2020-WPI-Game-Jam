@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour {
     //from https://www.codegrepper.com/code-examples/csharp/player+controller+script+unity
     Rigidbody2D rigidbody2D;
 
+    public GameObject tilemap;
+
     public BoxCollider2D groundCollider;
 
     public float originalSpeed = 2.0f;
@@ -61,6 +63,7 @@ public class PlayerController : MonoBehaviour {
                 if (currentJumpCount > 0) {
                     currentJumpCount--;
                     jump();
+                    print(currentJumpCount);
                 }
                 
             }
@@ -72,6 +75,7 @@ public class PlayerController : MonoBehaviour {
         //reset jump count
         if (isGrounded && timeSinceLastJump>5) {
             currentJumpCount = jumpCount;
+            //print(isGrounded);
         }
 
         //horizontal movement code
@@ -114,13 +118,14 @@ public class PlayerController : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col) {
         if (groundCollider.IsTouching(col.collider)) {
+            //print("touching");
             isGrounded = true;
         }
 
         //spike code
         ContactPoint2D[] contacts = new ContactPoint2D[10];
 
-        if (col.gameObject.name == "Tilemap") {
+        if (col.gameObject == tilemap) {
             //from https://answers.unity.com/questions/1728724/destroy-tiles-that-collide-with-object.html
             //get contacts
             int contactCount = col.contactCount;
@@ -159,8 +164,11 @@ public class PlayerController : MonoBehaviour {
     }
 
     void OnCollisionExit2D(Collision2D col) {
-        if(col.gameObject.name == "Tilemap") {
+        //print(col.gameObject);
+        //print(tilemap);
+        if(col.gameObject == tilemap) {
             isGrounded = false;
+            //print(isGrounded);
         }
         
     }
