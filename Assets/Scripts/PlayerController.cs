@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour {
                 if (currentJumpCount > 0) {
                     currentJumpCount--;
                     jump();
-                    print(currentJumpCount);
+                    //print(currentJumpCount);
                 }
                 
             }

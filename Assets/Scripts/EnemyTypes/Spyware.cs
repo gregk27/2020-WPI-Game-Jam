@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spyware : EnemyBase {
 
-    public GameObject player;
+    private GameObject player;
     public int stealCoinRate = 10;
 
     private int stealCoinTime;
@@ -12,6 +12,10 @@ public class Spyware : EnemyBase {
     public Spyware() : base(2, 2) {
         //follows player
         stealCoinTime = stealCoinRate;
+    }
+
+    public void Start() {
+        player = GameObject.Find("Player");
     }
 
     public override void Move() {

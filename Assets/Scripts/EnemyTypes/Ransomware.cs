@@ -2,17 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ransomware : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public class Ransomware : EnemyBase {
+    public Ransomware() : base(2, 2) {
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

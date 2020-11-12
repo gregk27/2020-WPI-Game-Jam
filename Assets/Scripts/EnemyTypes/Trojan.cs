@@ -10,7 +10,7 @@ public class Trojan : EnemyBase {
         base.Move();
         //if it collides with a projectile
         if(false){
-            EnemySpawner.instance.DuplicateEnemy(transform.position);
+            //EnemySpawner.instance.DuplicateEnemy(transform.position);
         }
         
     }

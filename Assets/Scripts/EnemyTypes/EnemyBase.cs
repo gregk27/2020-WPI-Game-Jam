@@ -10,12 +10,14 @@ public class EnemyBase : MonoBehaviour
 
 
     //variables for getting right side of screen
-    public GameObject enemySpawner;
+    //TODO: remove this public variable
+    //private GameObject enemySpawner;
     private float rightX;
 
     void Start() {
-        EnemySpawner spawner = enemySpawner.GetComponent<EnemySpawner>();
-        rightX = spawner.rightX;
+        
+        //EnemySpawner spawner = enemySpawner.GetComponent<EnemySpawner>();
+        rightX = EnemySpawner.instance.rightX;
 
     }
 
