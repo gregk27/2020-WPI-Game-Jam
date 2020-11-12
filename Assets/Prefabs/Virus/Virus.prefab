@@ -163,6 +163,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82174022c0ecb434497f31d4659c6c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 10
   health: 2
-  enemySpawner: {fileID: 0}

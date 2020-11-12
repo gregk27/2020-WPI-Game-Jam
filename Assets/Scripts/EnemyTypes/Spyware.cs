@@ -14,11 +14,13 @@ public class Spyware : EnemyBase {
         stealCoinTime = stealCoinRate;
     }
 
-    public void Start() {
+    public override void Start() {
+        base.Start();
         player = GameObject.Find("Player");
     }
 
     public override void Move() {
+        //this dissapears once position is positive
         Vector3 movement = Vector3.Normalize(player.transform.position - transform.position);
         transform.position += movement * speed * Time.deltaTime;
 

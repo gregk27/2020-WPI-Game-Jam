@@ -142,8 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b51225036068ac84083f4d0d78d1316e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 10
   health: 2
-  enemySpawner: {fileID: 0}
-  player: {fileID: 0}
   stealCoinRate: 10

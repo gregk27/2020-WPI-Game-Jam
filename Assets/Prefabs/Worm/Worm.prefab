@@ -61,9 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56e4ee3c71bd5f45a95aa0870339bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 10
   health: 2
-  enemySpawner: {fileID: 0}
   duplicateChance: 0.0001
   moveTime: 40
 --- !u!1 &2573616537395236347

@@ -14,7 +14,7 @@ public class EnemyBase : MonoBehaviour
     //private GameObject enemySpawner;
     private float rightX;
 
-    void Start() {
+    public virtual void Start() {
         
         //EnemySpawner spawner = enemySpawner.GetComponent<EnemySpawner>();
         rightX = EnemySpawner.instance.rightX;

@@ -15,7 +15,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject ransomware;
 
     public string pathToWavesFile;
-    private FileInfo[] waveFiles;
+    private List<FileInfo> waveFiles;
 
     //list of waves
     //next list is of rows
@@ -27,7 +27,7 @@ public class EnemySpawner : MonoBehaviour
     //stores only current wave
     private List<List<string>> thisWave = new List<List<string>>();
 
-    public int currWave = 1;
+    public int currWave = 0;
     private int waveTime = 0;
 
     public int spawnTimer = 10;
@@ -43,6 +43,11 @@ public class EnemySpawner : MonoBehaviour
 
     //private List<GameObject> enemies;
     // Start is called before the first frame update
+
+    private static bool IsNotCSV(FileInfo fi) {
+        return !(fi.Extension == ".csv");
+    }
+
     void Start()
     {
         //set public static instance of this
@@ -52,9 +57,25 @@ public class EnemySpawner : MonoBehaviour
         timeToSpawn = spawnTimer;
 
         //get waves 
-        waveFiles = new DirectoryInfo(pathToWavesFile).GetFiles();
-        foreach(FileInfo fi in waveFiles) {
+        waveFiles = (new DirectoryInfo(pathToWavesFile).GetFiles()).ToList();
+
+        //remove non .csv files
+        waveFiles.RemoveAll(IsNotCSV);
+
+        //sort
+        //this function takes two inputs and returns if thing one should go infront of thing 2
+        waveFiles.Sort((file1, file2) => {
+            //print(file1.Name);
+            return int.Parse(Path.GetFileNameWithoutExtension(file1.Name)) - int.Parse(Path.GetFileNameWithoutExtension(file2.Name));
+        });
+
+        
+
+        
+        foreach (FileInfo fi in waveFiles) {
+            //print(fi.Name);
             List<List<string>> thisWave = new List<List<string>>();
+            
             //from https://docs.microsoft.com/en-us/dotnet/api/system.io.fileinfo.opentext?view=net-5.0
             // Open the stream and read it back.
             using (StreamReader sr = fi.OpenText()) {
@@ -66,13 +87,16 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
             waves.Add(thisWave);
+            
+            //print(waves.Count());
+            
         }
 
         //this array should have all the waves
-        print(waves);
+        //print(waves);
 
         //set thisWave to be first wave
-        thisWave = waves[0];
+        thisWave = waves[currWave];
     }
 
     // Update is called once per frame
@@ -82,14 +106,18 @@ public class EnemySpawner : MonoBehaviour
         if(timeToSpawn == 0) {
             //loop through rows in wave
             int i = 0;
-            foreach(List<string> horizontalPos in thisWave) {
+            foreach(List<string> horizontalRow in thisWave) {
                 //this maps the vertical spawn to anywhere between yMin and yMax
                 float verticalSpawn = i * (yMax - yMin) / 10 + yMin;
                 Vector3 pos = new Vector3(leftX, verticalSpawn, -2);
                 //spawn whichever enemy it is
 
                 //TODO: this throws a bug
-                switch (horizontalPos[waveTime]) {
+
+                //horizontalRow.ForEach(print);
+                //print(currWave);
+                //print(waveTime);
+                switch (horizontalRow[waveTime]) {
                     case "V":
                         //virus
                         Instantiate(virus, position: pos, Quaternion.identity);
@@ -121,10 +149,12 @@ public class EnemySpawner : MonoBehaviour
             waveTime++;
             //if at end of wave
             if(waveTime == thisWave[0].Count) {
-                thisWave = waves[currWave];
-
+                //this does not show wave 2
                 currWave++;
                 waveTime = 0;
+                //throws error
+                thisWave = waves[currWave];
+                print(currWave);
                 //wait until all enemies are ded
             }
 
