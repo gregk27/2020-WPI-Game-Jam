@@ -171,14 +171,4 @@ public class EnemySpawner : MonoBehaviour
 
         timeToSpawn--;
     }
-
-    public void DuplicateRandomEnemy(Vector3 pos) {
-        /*
-        //get random enemy
-        GameObject randEnemy = enemyTypes[Random.Range(0, enemyTypes.Count)];
-        //clone it
-        Instantiate(randEnemy, position: pos, Quaternion.identity);
-        */
-        //do this in Trojan.cs
-    }
 }
