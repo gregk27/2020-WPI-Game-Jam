@@ -1742,7 +1742,7 @@ MonoBehaviour:
     type: 3}
   pathToWavesFile: Assets/Scripts/Waves
   currWave: 0
-  spawnTimer: 3
+  spawnTimer: 5
   leftX: -30
   rightX: 30
   yMin: -10
