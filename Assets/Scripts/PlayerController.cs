@@ -125,6 +125,8 @@ public class PlayerController : MonoBehaviour {
             Die();
         }
 
+        
+
         //step time since last jump
         timeSinceLastJump++;
     }
@@ -170,11 +172,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        //enemy colision code
-        if (col.gameObject.name == "Enemy") {
-            Die();
-
-        }
+        
         //print(col.collider);
         //print(col.otherCollider);
     }
@@ -187,5 +185,12 @@ public class PlayerController : MonoBehaviour {
             //print(isGrounded);
         }
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D col) {
+        //enemy colision 
+        if(col.gameObject.tag == "Enemy") {
+            Die();
+        }
     }
 }
