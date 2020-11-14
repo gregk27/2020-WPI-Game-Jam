@@ -10,33 +10,52 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Networking;
 using UnityEngine.SocialPlatforms.Impl;
 
+/**
+ * Class with functions to interface with the backend server
+ */
 public static class Backend
 {
+    /**
+     * <summary>Structure representing an entry in the top scores list</summary>
+     */
     [Serializable]
     public struct HighScore
     {
+        /** <summary>Name attached to entry</summary>*/
         public string name;
+        /** <summary>Score of entry</summary>*/
         public int score;
     }
 
+    /**
+     * <summary>Structure used to represent overall score data</summary>
+     */
     [Serializable]
     public struct ScoreData
     {
-        // The current cumulative score
+        /** <summary>The current cumulative score</summary>*/
         public int currentScore;
-        // The index of the next unlock
+        /** <summary>The index of the next unlock</summary>*/
         public int nextUnlock;
-        // The cumulative score needed for the next unlock
+        /** <summary>The cumulative score needed for the next unlock</summary>*/
         public int nextScore;
-        // The top 10 scores
+        /** <summary>The top 10 scores</summary>*/
         public List<HighScore> top;
     }
 
+    /** <summary>Address of highscore server</summary> */
     private static readonly string serverAddress = "http://server.lan:2708";
+    /** <summary>Endpoint to get status</summary> */
     private static readonly string getStatus = "/status";
+    /** <summary>Endpoint to get score data</summary> */
     private static readonly string getScoreData = "/scoreData";
+    /** <summary>Endpoint to add score data</summary> */
     private static readonly string pushScore = "/addScore";
 
+    /**
+     * <summary>Function to get status of server connection<br/>
+     * Returns: <c>true</c> if server responds "Alive"</summary>
+     */
     public static bool GetStatus()
     {
         HttpWebRequest req = (HttpWebRequest)WebRequest.Create(serverAddress + getStatus);
@@ -47,6 +66,11 @@ public static class Backend
         return resString.Equals("Alive");
     }
 
+    /**
+     * <summary>Get the overall score data from the server<br/>
+     * Returns: ScoreData with response
+     * </summary>
+     */
     public static ScoreData GetScoreData()
     {
         HttpWebRequest req = (HttpWebRequest)WebRequest.Create(serverAddress + getScoreData);
@@ -59,6 +83,12 @@ public static class Backend
         return data;
     }
 
+    /**
+     * <summary>Push a score to the server<br/>
+     *  - name: Username to use<br/>
+     *  - score: Score to be added<br/>
+     * </summary>
+     */
     public static void PushScore(string name, int score)
     {
         HttpWebRequest req = (HttpWebRequest)WebRequest.Create(serverAddress + pushScore);
@@ -89,6 +119,10 @@ public static class Backend
         Debug.Log(resString);
     }
 
+    /**
+     * <summary>Get the GUID associated with the user<br/>
+     * Checks sharedPrefs, and if not found, generates a new one</summary>
+     */
     private static string getID()
     {
         // If the UUID exists, return it
