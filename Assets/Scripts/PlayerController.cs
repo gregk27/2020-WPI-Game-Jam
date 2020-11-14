@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
 
     public string spikeName = "";
 
-    bool isGrounded;
+    public bool isGrounded;
     //this variable tracks if up arrow is pressed
     //the player needs to release up in order to jump again
     bool jumped = false;
