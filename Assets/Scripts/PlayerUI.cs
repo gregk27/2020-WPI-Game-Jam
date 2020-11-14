@@ -14,6 +14,11 @@ public class PlayerUI : MonoBehaviour
 
     private Vector3 startPos;
 
+    //also do particles here, why not
+    //should maybe have own script, oh well
+    //this could all be better
+    private ParticleSystem particleSystem;
+
     //private PlayerController playerController;
     void HideUI() {
         //hide all the UI's
@@ -29,6 +34,8 @@ public class PlayerUI : MonoBehaviour
     {
         HideUI();
         startScreenUI.SetActive(true);
+
+        particleSystem = GetComponentInChildren<ParticleSystem>();
 
         //playerController = gameObject.GetComponent<PlayerController>();
         //disable movement
@@ -47,16 +54,23 @@ public class PlayerUI : MonoBehaviour
     //called when game start button is clicked
     public void StartButtonClicked() {
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         transform.position = startPos;
         HideUI();
         mainUI.SetActive(true);
         EnemySpawner.instance.ResetEnemies();
         EnemySpawner.instance.gameIsPlaying = true;
+
+        //burst of particles
+        particleSystem.Stop();
     }
 
     public void PlayerDied() {
         HideUI();
         deathScreenUI.SetActive(true);
         EnemySpawner.instance.gameIsPlaying = false;
+        
+        particleSystem.Play();
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
     }
 }

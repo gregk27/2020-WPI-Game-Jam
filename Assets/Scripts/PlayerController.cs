@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour {
     private Vector3 moveDirection = Vector3.zero;
 
     
+
+    
     public int jumpCount = 3;
     public float downGravity = 4;
     public float defaultGravity = 1;
@@ -43,6 +45,9 @@ public class PlayerController : MonoBehaviour {
         rigidbody2D = GetComponent<Rigidbody2D>();
         currentJumpCount = jumpCount;
         speed = originalSpeed;
+
+        
+        //particleSystem.
     }
 
     void jump() {
@@ -55,8 +60,12 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Die() {
-        print("die");
+        //print("die");
+
+
+        //set rigidbody to static
         rigidbody2D.bodyType = RigidbodyType2D.Static;
+
         GetComponent<PlayerUI>().PlayerDied();
     }
 
