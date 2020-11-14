@@ -32,6 +32,9 @@ public class PlayerController : MonoBehaviour {
 
     public string spikeName = "";
 
+    //this is the minimum height before the player dies
+    public float minHeight = -11;
+
     public bool isGrounded;
     //this variable tracks if up arrow is pressed
     //the player needs to release up in order to jump again
@@ -49,6 +52,12 @@ public class PlayerController : MonoBehaviour {
         //the player cannot jump again until they release up
         timeSinceLastJump = 0;
         jumped = true;
+    }
+
+    void Die() {
+        print("die");
+        rigidbody2D.bodyType = RigidbodyType2D.Static;
+        GetComponent<PlayerUI>().PlayerDied();
     }
 
     void FixedUpdate() {
@@ -111,6 +120,10 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        //if less than height, also die
+        if (transform.position.y < minHeight) {
+            Die();
+        }
 
         //step time since last jump
         timeSinceLastJump++;
@@ -146,8 +159,10 @@ public class PlayerController : MonoBehaviour {
                 //get tile at contact point
                 TileBase tile = tilemap.GetTile(tilemap.WorldToCell(hitPosition) + Vector3Int.down);
                 try {
+                    print(tile.name);
                     if (tile.name == spikeName) {
                         //die
+                        Die();
                     }
                 }catch(NullReferenceException e) {
                     return;
@@ -157,6 +172,7 @@ public class PlayerController : MonoBehaviour {
 
         //enemy colision code
         if (col.gameObject.name == "Enemy") {
+            Die();
 
         }
         //print(col.collider);

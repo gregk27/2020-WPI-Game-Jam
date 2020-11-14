@@ -21,13 +21,17 @@ public class EnemySpawner : MonoBehaviour
     //get list of enemies currently on screen
     private List<GameObject> enemies = new List<GameObject>();
 
+    public bool gameIsPlaying;
+
     //get ui waves text
     public Text waveText;
     
 
     //get global multipliers
-    public float speedMul = 0.5f;
-    public float healthMul = 1;
+    public float defSpeedMul = 0.5f;
+    private float speedMul;
+    public float defHealthMul = 1;
+    private float healthMul;
 
     //list of waves
     //next list is of rows
@@ -39,7 +43,7 @@ public class EnemySpawner : MonoBehaviour
     //stores only current wave
     private List<List<string>> thisWave = new List<List<string>>();
 
-    public int currWave = 0;
+    private int currWave = 0;
     private int waveTime = 0;
 
     public int spawnTimer = 10;
@@ -64,6 +68,9 @@ public class EnemySpawner : MonoBehaviour
     {
         //set public static instance of this
         instance = this;
+
+        speedMul = defSpeedMul;
+        healthMul = defHealthMul;
 
         //set spawntimer
         timeToSpawn = spawnTimer;
@@ -204,6 +211,25 @@ public class EnemySpawner : MonoBehaviour
             }
         }
 
-        timeToSpawn--;
+        if (gameIsPlaying) {
+            timeToSpawn--;
+        }
+        
+    }
+    public void ResetEnemies() {
+        foreach(GameObject e in enemies) {
+            e.GetComponent<EnemyBase>().Remove();
+        }
+
+        //reset everything
+        enemies = new List<GameObject>();
+        speedMul = defSpeedMul;
+        healthMul = defHealthMul;
+
+        //set spawntimer
+        timeToSpawn = spawnTimer;
+        waveTime = 0;
+        currWave = 0;
+        thisWave = waves[currWave];
     }
 }

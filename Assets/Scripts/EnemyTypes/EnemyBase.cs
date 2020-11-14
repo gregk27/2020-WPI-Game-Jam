@@ -29,7 +29,7 @@ public class EnemyBase : MonoBehaviour
         rightX = EnemySpawner.instance.rightX;
         ai = GetComponent<IAstarAI>();
         ai.destination = new Vector3(rightX + 10, transform.position.y, transform.position.z);
-        ai.maxSpeed = speed * EnemySpawner.instance.speedMul;
+        ai.maxSpeed = speed;
 
         //set opacity
         gameObject.GetComponentInChildren<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
@@ -46,17 +46,11 @@ public class EnemyBase : MonoBehaviour
         
         //if too far right
         if (gameObject.transform.position.x >= rightX) {
-        //if done path
-        //if (ai.reachedEndOfPath) { 
+            //if done path
+            //if (ai.reachedEndOfPath) { 
             //print("die");
             //kill children
-            int childs = transform.childCount;
-            for (int i = childs - 1; i > 0; i--) {
-                GameObject.Destroy(transform.GetChild(i).gameObject);
-            }
-
-            //then destroy object
-            Destroy(gameObject);
+            Remove();
 
         }
 
@@ -64,6 +58,16 @@ public class EnemyBase : MonoBehaviour
         gameObject.GetComponentInChildren<SpriteRenderer>().color += new Color(0,0,0,0.01f);
 
 
+    }
+
+    public void Remove() {
+        int childs = transform.childCount;
+        for (int i = childs - 1; i > 0; i--) {
+            GameObject.Destroy(transform.GetChild(i).gameObject);
+        }
+
+        //then destroy object
+        Destroy(gameObject);
     }
 
     private int movingOut;
