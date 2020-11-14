@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret_Base : MonoBehaviour
+public class TurretBase : MonoBehaviour
 {
     bool hasTarget;
     int range;
     int maxAngle;
     int ammo;
     int maxAmmo;
-    int bulletPenetration;
 
     float targetRotation;
 
@@ -17,12 +16,14 @@ public class Turret_Base : MonoBehaviour
     public GameObject turretBase;
     public GameObject aimOrigin;
     public GameObject enemyManager;
+    public GameObject bulletManager;
     GameObject targetEnemy;
 
 
-
+    EnemyBase targetEnemyScript;
     Animator turretAnim;
     Animator turretBaseAnim;
+    
 
     void Start()
     {
@@ -31,10 +32,10 @@ public class Turret_Base : MonoBehaviour
     }
     void Update()
     {
-        //EnemyBase enemyBaseScript = GetComponent<EnemyBase>;
+        targetEnemyScript = targetEnemy.GetComponent<EnemyBase>();
         if(targetEnemy != null)
         {
-            if(1 == 1) {
+            if(targetEnemyScript.health > 0) {
                 foreach (Transform child in enemyManager.transform)
                 {
                     if (Vector2.Distance(transform.position, child.position) < Vector2.Distance(transform.position, targetEnemy.transform.position))
@@ -44,10 +45,14 @@ public class Turret_Base : MonoBehaviour
                 }
             }
         }
-        //Physics2D.Raycast(aimOrigin, );
+        RaycastHit2D thingItHit = Physics2D.Raycast(aimOrigin.transform.position, targetEnemy.transform.position, range);
 
+        if(thingItHit.collider.gameObject == targetEnemy)
+        {
+            aim(thingItHit.transform.position.x, thingItHit.transform.position.y);
+        }
 
-        if (hasTarget && ammo > 0)
+        if(hasTarget && ammo > 0)
         {
             turretAnim.SetTrigger("hasTarget");
             //aim();
