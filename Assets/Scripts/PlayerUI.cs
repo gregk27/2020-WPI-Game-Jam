@@ -74,5 +74,7 @@ public class PlayerUI : MonoBehaviour
         
         particleSystem.Play();
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+
+        RandomizeText.instance.SetRandomText();
     }
 }

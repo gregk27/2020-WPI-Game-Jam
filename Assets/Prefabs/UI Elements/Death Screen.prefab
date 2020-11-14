@@ -382,6 +382,7 @@ GameObject:
   - component: {fileID: 8110661836532274338}
   - component: {fileID: 8110661836532274340}
   - component: {fileID: 8110661836532274341}
+  - component: {fileID: 4382353522256873954}
   m_Layer: 5
   m_Name: You died text
   m_TagString: Untagged
@@ -451,3 +452,21 @@ MonoBehaviour:
   m_Text: ':(
 
 '
+--- !u!114 &4382353522256873954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8110661836532274339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1bbde87a6368394385e1c96cfef2e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texts:
+  - :(
+  - Aw dang
+  - Whoops
+  - Wow
+  - Noah was here
