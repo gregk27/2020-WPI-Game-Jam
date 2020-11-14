@@ -18,9 +18,6 @@ public class EnemySpawner : MonoBehaviour
     public string pathToWavesFile;
     private List<FileInfo> waveFiles;
 
-    //get list of enemies currently on screen
-    private List<GameObject> enemies = new List<GameObject>();
-
     public bool gameIsPlaying;
 
     //get ui waves text
@@ -144,29 +141,26 @@ public class EnemySpawner : MonoBehaviour
                     switch (horizontalRow[waveTime]) {
                         case "V":
                             //virus
-                            thisEnemy = Instantiate(virus, position: pos, Quaternion.identity);
+                            thisEnemy = Instantiate(virus, position: pos, Quaternion.identity, parent:transform);
                             break;
                         case "W":
                             //worm
-                            thisEnemy = Instantiate(worm, position: pos, Quaternion.identity);
+                            thisEnemy = Instantiate(worm, position: pos, Quaternion.identity, parent: transform);
                             break;
                         case "S":
                             //spyware
-                            thisEnemy = Instantiate(spyware, position: pos, Quaternion.identity);
+                            thisEnemy = Instantiate(spyware, position: pos, Quaternion.identity, parent: transform);
                             break;
                         case "T":
                             //trojan
-                            thisEnemy = Instantiate(trojan, position: pos, Quaternion.identity);
+                            thisEnemy = Instantiate(trojan, position: pos, Quaternion.identity, parent: transform);
                             break;
                         case "R":
                             //ransomware
-                            thisEnemy = Instantiate(ransomware, position: pos, Quaternion.identity);
+                            thisEnemy = Instantiate(ransomware, position: pos, Quaternion.identity, parent: transform);
                             break;
                         default:
                             break;
-                    }
-                    if (thisEnemy != null) {
-                        enemies.Add(thisEnemy);
                     }
                 }
                 //increment loop count
@@ -177,7 +171,7 @@ public class EnemySpawner : MonoBehaviour
             //if at end of wave
             if(waveTime >= thisWave[0].Count) {
                 //wait until all enemies are ded
-                if(enemies.Count == 0) {
+                if(transform.childCount == 0) {
                     //increment waves
                     currWave++;
                     waveText.text = (currWave + 1).ToString();
@@ -202,27 +196,21 @@ public class EnemySpawner : MonoBehaviour
             timeToSpawn = spawnTimer;
         }
 
-        //go through enemy list
-        //if enemy doesn't exist, remove it
-        //using for loop for efficiency
-        for(int i = 0; i<enemies.Count; i++) {
-            if (enemies[i] == null) {
-                enemies.RemoveAt(i);
-            }
-        }
-
         if (gameIsPlaying) {
             timeToSpawn--;
         }
         
     }
     public void ResetEnemies() {
-        foreach(GameObject e in enemies) {
-            e.GetComponent<EnemyBase>().Remove();
+
+        //kill all the children
+        //https://answers.unity.com/questions/611850/destroy-all-children-of-object.html
+        int childs = transform.childCount;
+        for (int i = 0; i < childs; i++) {
+            GameObject.Destroy(transform.GetChild(i).gameObject);
         }
 
         //reset everything
-        enemies = new List<GameObject>();
         speedMul = defSpeedMul;
         healthMul = defHealthMul;
 

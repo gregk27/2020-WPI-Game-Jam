@@ -10082,7 +10082,7 @@ MonoBehaviour:
   downGravity: 20
   defaultGravity: 4
   spikeName: spike
-  minHeight: -11
+  minHeight: -10
   isGrounded: 0
 --- !u!212 &1340308385
 SpriteRenderer:

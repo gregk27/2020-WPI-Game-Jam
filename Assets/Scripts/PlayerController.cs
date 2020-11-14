@@ -133,6 +133,12 @@ public class PlayerController : MonoBehaviour {
             transform.position = new Vector3(transform.position.x, minHeight, transform.position.z);
         }
 
+        //if moving left or right, flip character
+        if(rigidbody2D.velocity.x > 0) {
+            transform.localScale = new Vector3(-2, transform.localScale.y, transform.localScale.z);
+        } else {
+            transform.localScale = new Vector3(2, transform.localScale.y, transform.localScale.z);
+        }
         
 
         //step time since last jump

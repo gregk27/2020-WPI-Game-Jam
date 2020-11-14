@@ -20,8 +20,9 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update() {
 
+        PlayerController playerController = player.GetComponent<PlayerController>();
         //update vertical pos when player is grounded
-        if (player.GetComponent<PlayerController>().isGrounded) {
+        if (playerController.isGrounded || player.transform.position.y < playerController.minHeight) {
             if (minHeight <= player.transform.position.y) {
                 if (player.transform.position.y <= maxHeight) {
                     targetPos.y = player.transform.position.y;
