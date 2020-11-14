@@ -44,7 +44,7 @@ public static class Backend
     }
 
     /** <summary>Address of highscore server</summary> */
-    private static readonly string serverAddress = "http://server.lan:2708";
+    private static readonly string serverAddress = "https://gregk.ca/wpijam2020";
     /** <summary>Endpoint to get status</summary> */
     private static readonly string getStatus = "/status";
     /** <summary>Endpoint to get score data</summary> */
