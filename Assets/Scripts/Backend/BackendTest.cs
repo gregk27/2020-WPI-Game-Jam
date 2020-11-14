@@ -7,7 +7,8 @@ public class BackendTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Backend.GetStatus();
+        Debug.Log("Connected: "+Backend.GetStatus());
+        Backend.PushScore("Testing", 500);
         Backend.ScoreData data = Backend.GetScoreData();
     }
 
