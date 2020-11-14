@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
 
     private Vector3 moveDirection = Vector3.zero;
 
-    
+    private Vector3 startPos;
 
     
     public int jumpCount = 3;
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour {
         currentJumpCount = jumpCount;
         speed = originalSpeed;
 
-        
+        startPos = transform.position;
         //particleSystem.
     }
 
@@ -62,10 +62,8 @@ public class PlayerController : MonoBehaviour {
     void Die() {
         //print("die");
 
-
         //set rigidbody to static
         rigidbody2D.bodyType = RigidbodyType2D.Static;
-
         GetComponent<PlayerUI>().PlayerDied();
     }
 
@@ -130,8 +128,9 @@ public class PlayerController : MonoBehaviour {
         }
 
         //if less than height, also die
-        if (transform.position.y < minHeight) {
+        if (transform.position.y < minHeight) { 
             Die();
+            transform.position = new Vector3(transform.position.x, minHeight, transform.position.z);
         }
 
         

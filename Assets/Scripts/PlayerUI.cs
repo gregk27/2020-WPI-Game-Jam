@@ -53,6 +53,9 @@ public class PlayerUI : MonoBehaviour
 
     //called when game start button is clicked
     public void StartButtonClicked() {
+        //burst of particles
+        particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        //particleSystem.
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         transform.position = startPos;
@@ -61,8 +64,7 @@ public class PlayerUI : MonoBehaviour
         EnemySpawner.instance.ResetEnemies();
         EnemySpawner.instance.gameIsPlaying = true;
 
-        //burst of particles
-        particleSystem.Stop();
+        
     }
 
     public void PlayerDied() {
