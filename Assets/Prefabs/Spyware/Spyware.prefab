@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2109425062446652143}
   - component: {fileID: 2109425062446652142}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,9 +94,9 @@ GameObject:
   - component: {fileID: 2109425064015347244}
   - component: {fileID: 1016480811131058594}
   - component: {fileID: 3018861826230114952}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Spyware
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

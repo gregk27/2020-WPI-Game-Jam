@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6422263101722751070}
   - component: {fileID: 6422263101722751071}
   - component: {fileID: 5339838262184631918}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,9 +115,9 @@ GameObject:
   - component: {fileID: 6422263102773682303}
   - component: {fileID: 5908149605827319702}
   - component: {fileID: 8763965227404668101}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Virus
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

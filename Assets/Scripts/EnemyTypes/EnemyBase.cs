@@ -11,7 +11,8 @@ public class EnemyBase : MonoBehaviour
     public float speed;
     public float health;
 
-    private float enemyClumpAvoidance = 5;
+    private int enemyClumpAvoidance = 5;
+    private CircleCollider2D collider;
 
     protected IAstarAI ai;
 
@@ -23,9 +24,11 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void Start() {
         //EnemySpawner spawner = enemySpawner.GetComponent<EnemySpawner>();
+
+        collider = GetComponent<CircleCollider2D>();
         rightX = EnemySpawner.instance.rightX;
         ai = GetComponent<IAstarAI>();
-        ai.destination = new Vector3(rightX, transform.position.y, transform.position.z);
+        ai.destination = new Vector3(rightX + 10, transform.position.y, transform.position.z);
         ai.maxSpeed = speed;
     }
 
@@ -34,13 +37,14 @@ public class EnemyBase : MonoBehaviour
         this.health = health;
     }
 
+    
     void Update() {
         Move();
-
+        
         //if too far right
-        //if (gameObject.transform.position.x >= rightX) {
+        if (gameObject.transform.position.x >= rightX) {
         //if done path
-        if (ai.reachedEndOfPath) { 
+        //if (ai.reachedEndOfPath) { 
             //print("die");
             //kill children
             int childs = transform.childCount;
@@ -57,10 +61,28 @@ public class EnemyBase : MonoBehaviour
 
     }
 
+    private int movingOut;
+    private Vector3 moveAway;
     public virtual void Move() {
         //generic move
-        //how to avoid enemy clumping
+        //avoid enemy clumping
+        RaycastHit2D[] raycast = Physics2D.RaycastAll(transform.position, Vector2.up, 0);
+        if (raycast.GetLength(0) > 1) {
+            foreach (RaycastHit2D singleHit in raycast) {
+                GameObject go = singleHit.transform.gameObject;
+                //if enemy
+                if (go.CompareTag("Enemy")) {
+                    //get difference between objects
+                    moveAway = Vector3.Normalize(transform.position - go.transform.position) * Time.deltaTime * speed;
+                    movingOut = enemyClumpAvoidance;
+                }
+            }
+        }
 
+        if (movingOut > 0) {
+            transform.position += moveAway;
+            movingOut--;
+        }
         //move right
         //transform.position += Vector3.right * speed * Time.deltaTime;
 

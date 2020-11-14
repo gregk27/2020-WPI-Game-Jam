@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7982900114099993266}
   - component: {fileID: 8272097343720540927}
   - component: {fileID: 2231241086146124064}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ransomware
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 909681645279370434}
   - component: {fileID: 909681645279370435}
   - component: {fileID: 7982900113554677361}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
