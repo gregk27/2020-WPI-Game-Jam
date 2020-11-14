@@ -154,7 +154,7 @@ public class EnemySpawner : MonoBehaviour
                 waveTime = 0;
                 //throws error
                 thisWave = waves[currWave];
-                print(currWave);
+                //print(currWave);
                 //wait until all enemies are ded
             }
 

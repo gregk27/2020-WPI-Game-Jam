@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1264269913144887793}
   - component: {fileID: 5587014485769872258}
   - component: {fileID: 7746887786728305067}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Trojan
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 5783802946557381699}
   - component: {fileID: 5783802946557381698}
   - component: {fileID: 1264269913706982706}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
