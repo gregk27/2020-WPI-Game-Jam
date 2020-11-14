@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -17,9 +18,20 @@ public class EnemySpawner : MonoBehaviour
     public string pathToWavesFile;
     private List<FileInfo> waveFiles;
 
+    //get list of enemies currently on screen
+    private List<GameObject> enemies = new List<GameObject>();
+
+    //get ui waves text
+    public Text waveText;
+    
+
+    //get global multipliers
+    public float speedMul = 0.5f;
+    public float healthMul = 1;
+
     //list of waves
     //next list is of rows
-    //final list is collumns
+    //final list is 
 
     //stores all waves
     private List<List<List<string>>> waves = new List<List<List<string>>>();
@@ -104,7 +116,7 @@ public class EnemySpawner : MonoBehaviour
     {
         //spawn code
         if(timeToSpawn == 0) {
-            //loop through rows in wave
+            //loop through rows in wave, if wavetime is smaller than rows
             int i = 0;
             foreach(List<string> horizontalRow in thisWave) {
                 //this maps the vertical spawn to anywhere between yMin and yMax
@@ -117,45 +129,59 @@ public class EnemySpawner : MonoBehaviour
                 //horizontalRow.ForEach(print);
                 //print(currWave);
                 //print(waveTime);
-                switch (horizontalRow[waveTime]) {
-                    case "V":
-                        //virus
-                        Instantiate(virus, position: pos, Quaternion.identity);
-                        break;
-                    case "W":
-                        //worm
-                        Instantiate(worm, position: pos, Quaternion.identity);
-                        break;
-                    case "S":
-                        //spyware
-                        Instantiate(spyware, position: pos, Quaternion.identity);
-                        break;
-                    case "T":
-                        //trojan
-                        Instantiate(trojan, position: pos, Quaternion.identity);
-                        break;
-                    case "R":
-                        //ransomware
-                        Instantiate(ransomware, position: pos, Quaternion.identity);
-                        break;
-                    default:
-                        break;
-                }
 
+                //spawn enemy if wavetime is smaller than horizontal row
+                if (waveTime < horizontalRow.Count) {
+                    GameObject thisEnemy = null;
+
+                    switch (horizontalRow[waveTime]) {
+                        case "V":
+                            //virus
+                            thisEnemy = Instantiate(virus, position: pos, Quaternion.identity);
+                            break;
+                        case "W":
+                            //worm
+                            thisEnemy = Instantiate(worm, position: pos, Quaternion.identity);
+                            break;
+                        case "S":
+                            //spyware
+                            thisEnemy = Instantiate(spyware, position: pos, Quaternion.identity);
+                            break;
+                        case "T":
+                            //trojan
+                            thisEnemy = Instantiate(trojan, position: pos, Quaternion.identity);
+                            break;
+                        case "R":
+                            //ransomware
+                            thisEnemy = Instantiate(ransomware, position: pos, Quaternion.identity);
+                            break;
+                        default:
+                            break;
+                    }
+                    if (thisEnemy != null) {
+                        enemies.Add(thisEnemy);
+                    }
+                }
                 //increment loop count
                 i++;
             }
 
             waveTime++;
             //if at end of wave
-            if(waveTime == thisWave[0].Count) {
-                //this does not show wave 2
-                currWave++;
-                waveTime = 0;
-                //throws error
-                thisWave = waves[currWave];
-                //print(currWave);
+            if(waveTime >= thisWave[0].Count) {
                 //wait until all enemies are ded
+                if(enemies.Count == 0) {
+                    //increment waves
+                    currWave++;
+                    waveText.text = (currWave + 1).ToString();
+
+                    //set waveTime to 0
+                    waveTime = 0;
+
+                    //load new wave
+                    thisWave = waves[currWave];
+                }
+                
             }
 
             /*
@@ -167,6 +193,15 @@ public class EnemySpawner : MonoBehaviour
 
             //reset spawn timer
             timeToSpawn = spawnTimer;
+        }
+
+        //go through enemy list
+        //if enemy doesn't exist, remove it
+        //using for loop for efficiency
+        for(int i = 0; i<enemies.Count; i++) {
+            if (enemies[i] == null) {
+                enemies.RemoveAt(i);
+            }
         }
 
         timeToSpawn--;

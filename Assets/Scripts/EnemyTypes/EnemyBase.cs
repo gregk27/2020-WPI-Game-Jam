@@ -29,7 +29,10 @@ public class EnemyBase : MonoBehaviour
         rightX = EnemySpawner.instance.rightX;
         ai = GetComponent<IAstarAI>();
         ai.destination = new Vector3(rightX + 10, transform.position.y, transform.position.z);
-        ai.maxSpeed = speed;
+        ai.maxSpeed = speed * EnemySpawner.instance.speedMul;
+
+        //set opacity
+        gameObject.GetComponentInChildren<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
     }
 
     public EnemyBase(float speed, float health) {
@@ -56,7 +59,9 @@ public class EnemyBase : MonoBehaviour
             Destroy(gameObject);
 
         }
-        
+
+        //increase opacity
+        gameObject.GetComponentInChildren<SpriteRenderer>().color += new Color(0,0,0,0.01f);
 
 
     }

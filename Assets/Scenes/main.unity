@@ -2565,8 +2565,11 @@ MonoBehaviour:
   ransomware: {fileID: 909681643677104128, guid: 116b97164bdf5654e968ffff4dcbc944,
     type: 3}
   pathToWavesFile: Assets/Scripts/Waves
+  waveText: {fileID: 1658346478}
+  speedMul: 1
+  healthMul: 1
   currWave: 0
-  spawnTimer: 5
+  spawnTimer: 20
   leftX: -50
   rightX: 30
   yMin: -10
@@ -2579,7 +2582,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211173771}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5018547, y: 0.57232636, z: -11.072143}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3508,7 +3511,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100 000
+  m_Text: 200
 --- !u!222 &573858340
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6745,7 +6748,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100 000
+  m_Text: 200
 --- !u!222 &1414757070
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7173,7 +7176,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1000
+  m_Text: 1
 --- !u!222 &1658346479
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8672,4 +8675,4 @@ MonoBehaviour:
   minHeight: 0
   maxHeight: 8
   player: {fileID: 1340308382}
-  cameraSpeed: 20
+  cameraSpeed: 50
