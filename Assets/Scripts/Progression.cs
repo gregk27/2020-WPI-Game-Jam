@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class Progression
 {
-    private static readonly string UNLOCK_TURRET = "TOWER";
+    private static readonly string UNLOCK_TOWER = "TOWER";
     private static readonly string UNLOCK_PLAYER = "PLAYER";
 
     [Serializable]
@@ -25,7 +25,7 @@ public static class Progression
         public List<Unlock> unlocks;
     }
 
-    public struct TurretInfo
+    public struct TowerInfo
     {
         public string id;
         public int upgrades;
@@ -39,7 +39,7 @@ public static class Progression
 
     public static List<Unlock> unlocks { get; private set; }
 
-    public static Dictionary<string, TurretInfo> turrets { get; private set; }
+    public static Dictionary<string, TowerInfo> towers { get; private set; }
     public static PlayerInfo player { get; private set; }
     public static int nextUnlock { get; private set; }
 
@@ -55,7 +55,7 @@ public static class Progression
 
     private static void Update()
     {
-        turrets = new Dictionary<string, TurretInfo>();
+        towers = new Dictionary<string, TowerInfo>();
         player = new PlayerInfo();
         
         Backend.ScoreData scoreDat = Backend.GetScoreData();
@@ -65,18 +65,18 @@ public static class Progression
         for(int i=0; i<scoreDat.nextUnlock; i++)
         {
             u = unlocks[i];
-            if(u.type == UNLOCK_TURRET)
+            if(u.type == UNLOCK_TOWER)
             {
-                if (!turrets.ContainsKey(u.id))
+                if (!towers.ContainsKey(u.id))
                 {
-                    //If the turret is not in the list, create a new turret and add it
-                    TurretInfo info;
+                    //If the tower is not in the list, create a new tower and add it
+                    TowerInfo info;
                     info.id = u.id;
                     info.upgrades = u.value;
-                    turrets.Add(u.id, info);
+                    towers.Add(u.id, info);
                 } else {
-                    // If the turret is in the list, update it
-                    TurretInfo info = turrets[u.id];
+                    // If the tower is in the list, update it
+                    TowerInfo info = towers[u.id];
                     info.upgrades += u.value;
                 }
             } else if (u.type == UNLOCK_PLAYER) {
