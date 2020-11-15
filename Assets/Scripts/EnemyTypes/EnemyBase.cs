@@ -100,8 +100,8 @@ public class EnemyBase : MonoBehaviour
     }
 
     //bullets call this function when enemies get hit
-    public virtual void Hit() {
-        health--;
+    public virtual void Hit(int damage) {
+        health -= damage;
         //print("hit");
         if (health <= 0){
             Instantiate(particleSystem, position:transform.position, rotation:Quaternion.identity);

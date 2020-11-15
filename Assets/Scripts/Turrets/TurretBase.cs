@@ -12,6 +12,12 @@ public class TurretBase : MonoBehaviour
     public int maxAmmo;
     public int cooldown;
 
+    public int upgradeLevel;
+
+    public int baseCooldown = 60;
+    public int baseDamage = 1;
+    public int baseSpeed = 50;
+
     private int shotTimer = 0;
 
     float targetRotation;
@@ -101,8 +107,10 @@ public class TurretBase : MonoBehaviour
         if(turretBaseAnim != null && shotTimer <= 0)
         {
             turretBaseAnim.SetInteger("ammo", ammo - 1);
-            Instantiate(bullet, aimOrigin.transform.position, turret.transform.rotation, bulletManager.transform);
-            shotTimer = cooldown;
+            GameObject b = Instantiate(bullet, aimOrigin.transform.position, turret.transform.rotation, bulletManager.transform);
+            shotTimer = baseCooldown/(upgradeLevel*4);
+            b.GetComponent<bulletBase>().damage = baseDamage * upgradeLevel / 3;
+            b.GetComponent<bulletBase>().speed = baseSpeed * upgradeLevel / 2;
         }
         
     }
