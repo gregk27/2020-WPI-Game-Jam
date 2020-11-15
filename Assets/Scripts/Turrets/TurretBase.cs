@@ -56,7 +56,6 @@ public class TurretBase : MonoBehaviour
                     // Check that the enemy is in line of sight
                     if (hit.transform.tag == "Enemy")
                     {
-                        Debug.DrawRay(transform.position, (t.position - transform.position) * range);
                         targetEnemy = t.gameObject;
                     }
                 }
