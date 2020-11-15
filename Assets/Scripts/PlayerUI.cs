@@ -12,6 +12,11 @@ public class PlayerUI : MonoBehaviour
     public GameObject deathScreenUI;
     public GameObject startScreenUI;
 
+    public GameObject tower;
+    public GameObject towerParent;
+    public GameObject enemyManager;
+    public GameObject bulletManager;
+
     private List<CanvasGroup> uiList = new List<CanvasGroup>();
 
     private Vector3 startPos;
@@ -47,6 +52,8 @@ public class PlayerUI : MonoBehaviour
         uiList.Add(deathScreenUI.GetComponent<CanvasGroup>());
         uiList.Add(startScreenUI.GetComponent<CanvasGroup>());
 
+        ScoreManager.UpdateUI();
+
         HideUI();
         ShowUI(startScreenUI);
 
@@ -60,6 +67,22 @@ public class PlayerUI : MonoBehaviour
         startPos = transform.position;
     }
 
+    public void Update() {
+        if (Input.GetKeyDown(KeyCode.E)) {
+            //HideUI();
+            //ShowUI(mainUI);
+            //ShowUI(buyTowerUI);
+            if (ScoreManager.RemoveScore(100)) {
+                //get position
+                RaycastHit2D pos = Physics2D.Raycast(transform.position, Vector2.down, distance: Mathf.Infinity, layerMask: LayerMask.GetMask("Obstacle"));
+                GameObject turret = Instantiate(tower, pos.point + Vector2.up * 0.5f, Quaternion.identity, parent: towerParent.transform);
+                turret.GetComponent<TurretBase>().enemyManager = enemyManager;
+                turret.GetComponent<TurretBase>().bulletManager = bulletManager;
+            }
+            
+        }
+    }
+
     //called when game start button is clicked
     public void StartButtonClicked() {
         //burst of particles
@@ -68,6 +91,14 @@ public class PlayerUI : MonoBehaviour
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         transform.position = startPos;
+
+        //remove towers
+        for (int i = 0; i < towerParent.transform.childCount; i++) {
+            GameObject.Destroy(towerParent.transform.GetChild(i).gameObject);
+        }
+
+        ScoreManager.Reset();
+        ScoreManager.UpdateUI();
 
         //hide UI
         HideUI();
@@ -86,6 +117,7 @@ public class PlayerUI : MonoBehaviour
         
         particleSystem.Play();
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+
 
         RandomizeText.instance.SetRandomText();
     }

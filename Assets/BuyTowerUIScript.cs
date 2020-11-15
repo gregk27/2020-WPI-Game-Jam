@@ -10,6 +10,7 @@ public class BuyTowerUIScript : MonoBehaviour
     public Image towerImage;
     public Text towerCost;
     private int thisTower = 0;
+    public int thisTowerCost = 100;
 
     // Start is called before the first frame update
     void Start() {

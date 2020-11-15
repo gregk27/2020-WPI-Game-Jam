@@ -6,20 +6,28 @@ using UnityEngine.UI;
 public static class ScoreManager
 {
     // Start is called before the first frame update
-    private static int score = 200;
-    private static int totalScore = 200;
+    private static int score = 500;
+    private static int totalScore = 500;
     
-    public static int AddScore(int v) {
+    public static int AddScore(int v, bool addTotal = true) {
         score += v;
-        totalScore += v;
+        if (addTotal) {
+            totalScore += v;
+        }
+        
         UpdateUI();
         return score;
     }
 
-    public static int RemoveScore(int v) {
-        score -= v;
-        UpdateUI();
-        return score;
+    public static bool RemoveScore(int v) {
+        if(score > v) {
+            score -= v;
+            UpdateUI();
+            Debug.Log(score);
+            return true;
+        }
+        
+        return false;
     }
 
     public static void UpdateUI() {
@@ -27,17 +35,23 @@ public static class ScoreManager
 
         foreach(Transform child in mainUI.transform) {
             Text text = child.GetComponent<Text>();
+            //idk why the score variables need to be reversed
             switch (child.name) {
                 case "Score":
-                    text.text = score.ToString();
+                    text.text = totalScore.ToString();
                     break;
                 case "Total Score":
-                    text.text = totalScore.ToString();
+                    text.text = score.ToString();
                     break;
 
                 default:
                     break;
             }
         }
+    }
+
+    public static void Reset() {
+        score = 500;
+        totalScore = 500;
     }
 }
