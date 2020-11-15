@@ -135,9 +135,9 @@ public class PlayerController : MonoBehaviour {
 
         //if moving left or right, flip character
         if(rigidbody2D.velocity.x > 0) {
-            transform.localScale = new Vector3(-2, transform.localScale.y, transform.localScale.z);
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
         } else {
-            transform.localScale = new Vector3(2, transform.localScale.y, transform.localScale.z);
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
         }
         
 
