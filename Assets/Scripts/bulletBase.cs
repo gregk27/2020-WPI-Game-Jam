@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class bulletBase : MonoBehaviour
 {
-    EnemyBase targetEnemyScript;
+    //EnemyBase targetEnemyScript;
     Rigidbody2D rb2d = new Rigidbody2D();
     public int speed;
 
@@ -12,6 +12,7 @@ public class bulletBase : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        rb2d.mass = 0;
         rb2d.velocity = transform.up * speed;
         Debug.Log(transform.forward);
     }
@@ -25,8 +26,9 @@ public class bulletBase : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            targetEnemyScript = other.gameObject.GetComponent<EnemyBase>();
-            targetEnemyScript.health--;
+            //targetEnemyScript = other.gameObject.GetComponent<EnemyBase>();
+            //targetEnemyScript.health--;
+            other.GetComponent<EnemyBase>().Hit();
             GameObject.Destroy(gameObject);
         }
         else
