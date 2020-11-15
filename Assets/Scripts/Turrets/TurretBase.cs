@@ -75,13 +75,13 @@ public class TurretBase : MonoBehaviour
         Vector2 enemyPos = new Vector2(targetEnemy.transform.position.x, targetEnemy.transform.position.y);
         Debug.Log("enemy position: " + enemyPos);
 
-        turret.transform.LookAt(enemyPos);
-        /*targetRotation = Vector2.Angle(turretPos, enemyPos);
-        Debug.Log(targetRotation);
-        Debug.DrawLine(transform.position, targetEnemy.transform.position);
+        // Get direction vector
+        Vector2 dir = enemyPos - turretPos;
+        // Get target angle
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
+        // Rotate turret to angle
+        turret.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        turret.transform.eulerAngles = new Vector3(0, 0, targetRotation + 90);
-        */
         fire();
     }
     void fire()
