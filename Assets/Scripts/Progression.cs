@@ -47,8 +47,7 @@ public static class Progression
     static Progression()
     {
         Debug.Log("Initialising");
-        TextAsset jsonFile = Resources.Load<TextAsset>("Progression");
-        unlocks = JsonUtility.FromJson<ProgressionData>(jsonFile.text).unlocks;
+        unlocks = Backend.GetProgressionData().unlocks;
         Update();
         Debug.Log("Done");
     }

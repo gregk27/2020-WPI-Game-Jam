@@ -51,6 +51,8 @@ public static class Backend
     private static readonly string getScoreData = "/scoreData";
     /** <summary>Endpoint to add score data</summary> */
     private static readonly string pushScore = "/addScore";
+    /** <summary>Endpoint to get progression data</summary> */
+    private static readonly string getProgressionData = "/progression";
 
     /**
      * <summary>Function to get status of server connection<br/>
@@ -135,5 +137,21 @@ public static class Backend
         string key = System.Guid.NewGuid().ToString();
         PlayerPrefs.SetString("id", key);
         return key;
+    }
+
+    /**  
+     * <summary>Get progression information<br/>
+     * Returns: Progression data</summary>
+     */
+    public static Progression.ProgressionData GetProgressionData()
+    {
+        HttpWebRequest req = (HttpWebRequest)WebRequest.Create(serverAddress + getProgressionData);
+        HttpWebResponse res = (HttpWebResponse)req.GetResponse();
+
+        StreamReader reader = new StreamReader(res.GetResponseStream());
+        string resString = reader.ReadToEnd();
+        Debug.Log(resString);
+        Progression.ProgressionData data = JsonUtility.FromJson<Progression.ProgressionData>(resString);
+        return data;
     }
 }
