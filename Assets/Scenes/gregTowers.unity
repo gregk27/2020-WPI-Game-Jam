@@ -14948,6 +14948,7 @@ MonoBehaviour:
   range: 10
   ammo: 20
   maxAmmo: 20
+  cooldown: 30
   turret: {fileID: 2340902394010225992}
   turretBase: {fileID: 1969836955227329591}
   aimOrigin: {fileID: 3502967336381188745}

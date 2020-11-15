@@ -6,12 +6,14 @@ public class bulletBase : MonoBehaviour
 {
     EnemyBase targetEnemyScript;
     Rigidbody2D rb2d = new Rigidbody2D();
+    public int speed;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb2d.AddRelativeForce(transform.forward);
-        
+        rb2d = GetComponent<Rigidbody2D>();
+        rb2d.velocity = transform.up * speed;
+        Debug.Log(transform.forward);
     }
 
     // Update is called once per frame

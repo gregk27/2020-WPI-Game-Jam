@@ -9,6 +9,9 @@ public class TurretBase : MonoBehaviour
     int maxAngle;
     public int ammo;
     public int maxAmmo;
+    public int cooldown;
+
+    private int shotTimer = 0;
 
     float targetRotation;
 
@@ -34,6 +37,7 @@ public class TurretBase : MonoBehaviour
     }
     void Update()
     {
+        shotTimer--;
         
         if(targetEnemy == null || Vector2.Distance(transform.position, targetEnemy.transform.position) > range)
         {
@@ -84,12 +88,14 @@ public class TurretBase : MonoBehaviour
 
         fire();
     }
+
     void fire()
     {
-        if(turretBaseAnim != null)
+        if(turretBaseAnim != null && shotTimer <= 0)
         {
             turretBaseAnim.SetInteger("ammo", ammo - 1);
-            Instantiate(bullet, aimOrigin.transform.position, transform.rotation, bulletManager.transform);
+            Instantiate(bullet, aimOrigin.transform.position, turret.transform.rotation, bulletManager.transform);
+            shotTimer = cooldown;
         }
         
     }
