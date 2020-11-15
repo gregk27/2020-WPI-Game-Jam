@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,37 +39,37 @@ public class TurretBase : MonoBehaviour
     void Update()
     {
         shotTimer--;
-        
-        if(targetEnemy == null || Vector2.Distance(transform.position, targetEnemy.transform.position) > range)
+
+        targetEnemy = null;
+
+        foreach(Transform t in enemyManager.transform)
         {
-            targetEnemy = enemyManager.transform.GetChild(0).gameObject;
-            foreach (Transform child in enemyManager.transform)
+            float dist = Vector2.Distance(transform.position, t.position);
+            if(dist < range)
             {
-                if (Vector2.Distance(transform.position, child.position) < Vector2.Distance(transform.position, targetEnemy.transform.position))
+                if (targetEnemy == null)
                 {
-                    targetEnemy = child.gameObject;
+                    targetEnemy = t.gameObject;
+                    continue;
+                }
+
+                if(t.position.x > targetEnemy.transform.position.x)
+                {
+                    targetEnemy = t.gameObject;
                 }
             }
-            
         }
 
-        aim();
-
-        //RaycastHit2D thingItHit = Physics2D.Raycast(aimOrigin.transform.position, targetEnemy.transform.position, range);
-
-        /*if(thingItHit.collider.gameObject == targetEnemy)
+        if(targetEnemy != null)
         {
             aim();
-        }
-        */
-        if(hasTarget && ammo > 0)
-        {
-            turretAnim.SetTrigger("hasTarget");
-            //aim();
-        }
-        else if(hasTarget && ammo <= 0)
-        {
-            reload();
+            if(ammo > 0)
+            {
+                turretAnim.SetTrigger("hasTarget");
+                fire();
+            } else {
+                reload();
+            }
         }
     }
 
@@ -89,7 +90,6 @@ public class TurretBase : MonoBehaviour
         // Rotate turret to angle
         turret.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        fire();
     }
 
     void fire()
