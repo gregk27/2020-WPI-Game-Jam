@@ -51,9 +51,16 @@ async function getUnlockScore(){
 
     // Get total score and number of entries above cutoff score
     let data = (await query("SELECT SUM(score), COUNT(*) from scores WHERE score > ?", [unlock.baseScore * unlock.scaleFactor]))[0];
-  
+    
     // Calculate next unlock score based on entry count and scaling factor
     let nextScore = (unlock.baseScore * Math.floor(data["COUNT(*)"] * unlock.scaleFactor + 1));
+
+    // If the next level has been unlocked, update and recurr
+    if(data["SUM(score)"] > nextScore){
+        nextUnlock ++;
+        console.log("Recurring "+nextUnlock);
+        return getUnlockScore();
+    }
 
     return {currentScore:data["SUM(score)"], nextScore};
 }
