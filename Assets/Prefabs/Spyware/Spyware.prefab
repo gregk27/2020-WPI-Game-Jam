@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   health: 1
+  currencyGain: 20
   stealCoinRate: 10
 --- !u!114 &1016480811131058594
 MonoBehaviour:

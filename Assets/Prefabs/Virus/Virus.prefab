@@ -167,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   health: 2
+  currencyGain: 3
 --- !u!114 &5908149605827319702
 MonoBehaviour:
   m_ObjectHideFlags: 0
