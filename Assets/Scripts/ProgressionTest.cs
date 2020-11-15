@@ -9,6 +9,7 @@ public class ProgressionTest : MonoBehaviour
     {
         Debug.Log("Hello World!");
         Debug.Log(Progression.unlocks[0].name);
+        Debug.Log("Done");
     }
 
     // Update is called once per frame
