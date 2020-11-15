@@ -5,10 +5,10 @@ using UnityEngine;
 public class TurretBase : MonoBehaviour
 {
     bool hasTarget;
-    int range;
+    public int range;
     int maxAngle;
-    int ammo;
-    int maxAmmo;
+    public int ammo;
+    public int maxAmmo;
 
     float targetRotation;
 
@@ -18,7 +18,7 @@ public class TurretBase : MonoBehaviour
     public GameObject enemyManager;
     public GameObject bulletManager;
     public GameObject bullet;
-    GameObject targetEnemy;
+    public GameObject targetEnemy;
 
 
     EnemyBase targetEnemyScript;
@@ -30,29 +30,33 @@ public class TurretBase : MonoBehaviour
     {
         turretAnim = turret.GetComponent<Animator>();
         turretBaseAnim = turretBase.GetComponent<Animator>();
+        targetEnemyScript = targetEnemy.GetComponent<EnemyBase>();
     }
     void Update()
     {
-        targetEnemyScript = targetEnemy.GetComponent<EnemyBase>();
-        if(targetEnemy != null)
+        
+        if(targetEnemy == null || Vector2.Distance(transform.position, targetEnemy.transform.position) > range)
         {
-            if(targetEnemyScript.health > 0) {
-                foreach (Transform child in enemyManager.transform)
+            targetEnemy = enemyManager.transform.GetChild(0).gameObject;
+            foreach (Transform child in enemyManager.transform)
+            {
+                if (Vector2.Distance(transform.position, child.position) < Vector2.Distance(transform.position, targetEnemy.transform.position))
                 {
-                    if (Vector2.Distance(transform.position, child.position) < Vector2.Distance(transform.position, targetEnemy.transform.position))
-                    {
-                        targetEnemy = child.gameObject;
-                    }
+                    targetEnemy = child.gameObject;
                 }
             }
+            
         }
-        RaycastHit2D thingItHit = Physics2D.Raycast(aimOrigin.transform.position, targetEnemy.transform.position, range);
 
-        if(thingItHit.collider.gameObject == targetEnemy)
+        aim();
+
+        //RaycastHit2D thingItHit = Physics2D.Raycast(aimOrigin.transform.position, targetEnemy.transform.position, range);
+
+        /*if(thingItHit.collider.gameObject == targetEnemy)
         {
             aim();
         }
-
+        */
         if(hasTarget && ammo > 0)
         {
             turretAnim.SetTrigger("hasTarget");
@@ -67,11 +71,18 @@ public class TurretBase : MonoBehaviour
     void aim()
     {
         Vector2 turretPos = new Vector2(transform.position.x, transform.position.y);
+        Debug.Log("turret position: " + turretPos);
         Vector2 enemyPos = new Vector2(targetEnemy.transform.position.x, targetEnemy.transform.position.y);
+        Debug.Log("enemy position: " + enemyPos);
 
-        targetRotation = Vector2.Angle(turretPos, enemyPos);
+        turret.transform.LookAt(enemyPos);
+        /*targetRotation = Vector2.Angle(turretPos, enemyPos);
+        Debug.Log(targetRotation);
+        Debug.DrawLine(transform.position, targetEnemy.transform.position);
 
-        turret.transform.Rotate(0, 0, targetRotation);
+        turret.transform.eulerAngles = new Vector3(0, 0, targetRotation + 90);
+        */
+        fire();
     }
     void fire()
     {

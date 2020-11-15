@@ -4,18 +4,33 @@ using UnityEngine;
 
 public class bulletBase : MonoBehaviour
 {
-
-    Collider2D bulletCollider;
+    EnemyBase targetEnemyScript;
+    Rigidbody2D rb2d = new Rigidbody2D();
 
     // Start is called before the first frame update
     void Start()
     {
-        bulletCollider = this.GetComponent<Collider2D>();
+        rb2d.AddRelativeForce(transform.forward);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if()
+
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Enemy")
+        {
+            targetEnemyScript = other.gameObject.GetComponent<EnemyBase>();
+            targetEnemyScript.health--;
+            GameObject.Destroy(gameObject);
+        }
+        else
+        {
+            GameObject.Destroy(gameObject);
+        }
+    }
+
 }
