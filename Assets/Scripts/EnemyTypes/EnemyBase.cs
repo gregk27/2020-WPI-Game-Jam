@@ -10,6 +10,7 @@ public class EnemyBase : MonoBehaviour
 {
     public float speed;
     public float health;
+    public int currencyGain = 5;
 
     private int enemyClumpAvoidance = 5;
     private CircleCollider2D collider;
@@ -104,6 +105,9 @@ public class EnemyBase : MonoBehaviour
         health--;
         //print("hit");
         if (health <= 0){
+            //give player score
+            ScoreManager.AddScore(currencyGain);
+
             Instantiate(particleSystem, position:transform.position, rotation:Quaternion.identity);
             Remove();
         }

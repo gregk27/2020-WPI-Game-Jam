@@ -65,6 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   health: 1
+  currencyGain: 5
   duplicateChance: 0.0001
   moveTime: 40
 --- !u!114 &3286582231941518266

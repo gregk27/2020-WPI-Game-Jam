@@ -10299,6 +10299,7 @@ GameObject:
   - component: {fileID: 1340308383}
   - component: {fileID: 1340308388}
   - component: {fileID: 1340308389}
+  - component: {fileID: 1340308390}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -10489,6 +10490,18 @@ MonoBehaviour:
   onTowerUI: {fileID: 8274436523022071679}
   deathScreenUI: {fileID: 8110661835293799667}
   startScreenUI: {fileID: 102328777}
+--- !u!114 &1340308390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340308382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a8481ee30eca1488a07b4ee72a89f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1356333567
 GameObject:
   m_ObjectHideFlags: 0
