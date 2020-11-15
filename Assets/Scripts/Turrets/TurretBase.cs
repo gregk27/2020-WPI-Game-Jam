@@ -17,6 +17,7 @@ public class TurretBase : MonoBehaviour
     public GameObject aimOrigin;
     public GameObject enemyManager;
     public GameObject bulletManager;
+    public GameObject bullet;
     GameObject targetEnemy;
 
 
@@ -49,7 +50,7 @@ public class TurretBase : MonoBehaviour
 
         if(thingItHit.collider.gameObject == targetEnemy)
         {
-            aim(thingItHit.transform.position.x, thingItHit.transform.position.y);
+            aim();
         }
 
         if(hasTarget && ammo > 0)
@@ -62,20 +63,31 @@ public class TurretBase : MonoBehaviour
             reload();
         }
     }
-    void aim(float enemyX, float enemyY)
+
+    void aim()
     {
-        targetRotation = Mathf.Atan2(enemyY, enemyX);
+        Vector2 turretPos = new Vector2(transform.position.x, transform.position.y);
+        Vector2 enemyPos = new Vector2(targetEnemy.transform.position.x, targetEnemy.transform.position.y);
 
-        turret.transform.Rotate(0, 0, targetRotation * Mathf.Rad2Deg);
+        targetRotation = Vector2.Angle(turretPos, enemyPos);
+
+        turret.transform.Rotate(0, 0, targetRotation);
     }
-
     void fire()
     {
-        turretBaseAnim.SetInteger("ammo", ammo - 1); 
+        if(turretBaseAnim != null)
+        {
+            turretBaseAnim.SetInteger("ammo", ammo - 1);
+            Instantiate(bullet, aimOrigin.transform.position, transform.rotation, bulletManager.transform);
+        }
+        
     }
     void reload()
     {
-        turretBaseAnim.SetInteger("ammo", maxAmmo);
-        ammo = maxAmmo;
+        if (turretBaseAnim != null)
+        {
+            turretBaseAnim.SetInteger("ammo", maxAmmo);
+            ammo = maxAmmo;
+        }
     }
 }
