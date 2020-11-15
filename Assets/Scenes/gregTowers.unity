@@ -14945,10 +14945,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e1cdefb0eb80764aada6d2a6c46712c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
-  ammo: 20
-  maxAmmo: 20
-  cooldown: 30
+  range: 0
+  ammo: 0
+  maxAmmo: 0
+  cooldown: 60
   turret: {fileID: 2340902394010225992}
   turretBase: {fileID: 1969836955227329591}
   aimOrigin: {fileID: 3502967336381188745}

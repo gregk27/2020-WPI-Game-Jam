@@ -76,11 +76,14 @@ public class TurretBase : MonoBehaviour
     {
         Vector2 turretPos = new Vector2(transform.position.x, transform.position.y);
         Debug.Log("turret position: " + turretPos);
-        Vector2 enemyPos = new Vector2(targetEnemy.transform.position.x, targetEnemy.transform.position.y);
-        Debug.Log("enemy position: " + enemyPos);
+        // Enemy position is enemy's current location + lead ahead (x axis only)
+        Vector2 enemyPos = new Vector2(targetEnemy.transform.position.x, targetEnemy.transform.position.y)
+            // Lead ahead is : V_enemy * (dist/V_bullet)
+            + (Vector2) targetEnemy.GetComponent<Pathfinding.AIPath>().desiredVelocity * Vector2.Distance(transform.position, targetEnemy.transform.position) / bullet.GetComponent<bulletBase>().speed;
 
         // Get direction vector
         Vector2 dir = enemyPos - turretPos;
+        Debug.DrawLine(turretPos, enemyPos);
         // Get target angle
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
         // Rotate turret to angle
@@ -107,4 +110,5 @@ public class TurretBase : MonoBehaviour
             ammo = maxAmmo;
         }
     }
+
 }
