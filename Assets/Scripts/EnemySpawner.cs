@@ -136,28 +136,27 @@ public class EnemySpawner : MonoBehaviour
 
                 //spawn enemy if wavetime is smaller than horizontal row
                 if (waveTime < horizontalRow.Count) {
-                    GameObject thisEnemy = null;
 
                     switch (horizontalRow[waveTime]) {
                         case "V":
                             //virus
-                            thisEnemy = Instantiate(virus, position: pos, Quaternion.identity, parent:transform);
+                            Instantiate(virus, position: pos, Quaternion.identity, parent:transform);
                             break;
                         case "W":
                             //worm
-                            thisEnemy = Instantiate(worm, position: pos, Quaternion.identity, parent: transform);
+                            Instantiate(worm, position: pos, Quaternion.identity, parent: transform);
                             break;
                         case "S":
                             //spyware
-                            thisEnemy = Instantiate(spyware, position: pos, Quaternion.identity, parent: transform);
+                            Instantiate(spyware, position: pos, Quaternion.identity, parent: transform);
                             break;
                         case "T":
                             //trojan
-                            thisEnemy = Instantiate(trojan, position: pos, Quaternion.identity, parent: transform);
+                            Instantiate(trojan, position: pos, Quaternion.identity, parent: transform);
                             break;
                         case "R":
                             //ransomware
-                            thisEnemy = Instantiate(ransomware, position: pos, Quaternion.identity, parent: transform);
+                            Instantiate(ransomware, position: pos, Quaternion.identity, parent: transform);
                             break;
                         default:
                             break;
@@ -198,6 +197,11 @@ public class EnemySpawner : MonoBehaviour
 
         if (gameIsPlaying) {
             timeToSpawn--;
+        }
+
+        //testing
+        if (Input.GetKey(KeyCode.A)) {
+            currWave++;
         }
         
     }
