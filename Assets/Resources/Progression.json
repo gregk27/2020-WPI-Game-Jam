@@ -1,0 +1,23 @@
+{
+    "unlocks":[
+        {
+            "baseScore":100,
+            "name": "First Unlock",
+            "desc": "The first unlock",
+            "scaleFactor":0.1,
+			"type":"TOWER",
+			"id":"tower2",
+			"value":0
+        },
+        
+        {
+            "baseScore":999999999,
+            "name": "All unlocks achieved",
+            "desc": "Impossible unlock to prevent overflow",
+            "scaleFactor":1,
+			"type":"PLAYER",
+			"id":"jump",
+			"value":1
+        }
+    ]
+}
