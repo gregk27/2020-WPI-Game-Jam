@@ -42,20 +42,23 @@ public class TurretBase : MonoBehaviour
 
         targetEnemy = null;
 
+        RaycastHit2D hit;
+
         foreach(Transform t in enemyManager.transform)
         {
             float dist = Vector2.Distance(transform.position, t.position);
             if(dist < range)
             {
-                if (targetEnemy == null)
+                if(targetEnemy == null || t.position.x > targetEnemy.transform.position.x)
                 {
-                    targetEnemy = t.gameObject;
-                    continue;
-                }
-
-                if(t.position.x > targetEnemy.transform.position.x)
-                {
-                    targetEnemy = t.gameObject;
+                    // Check that you can hit. Mask removes bullets from check
+                    hit = Physics2D.Raycast(transform.position, t.position - transform.position, range, ~(1<<11));
+                    // Check that the enemy is in line of sight
+                    if (hit.transform.tag == "Enemy")
+                    {
+                        Debug.DrawRay(transform.position, (t.position - transform.position) * range);
+                        targetEnemy = t.gameObject;
+                    }
                 }
             }
         }
@@ -70,6 +73,9 @@ public class TurretBase : MonoBehaviour
             } else {
                 reload();
             }
+        } else
+        {
+            turret.transform.rotation = Quaternion.AngleAxis(0, Vector3.forward);
         }
     }
 
@@ -84,7 +90,6 @@ public class TurretBase : MonoBehaviour
 
         // Get direction vector
         Vector2 dir = enemyPos - turretPos;
-        Debug.DrawLine(turretPos, enemyPos);
         // Get target angle
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
         // Rotate turret to angle

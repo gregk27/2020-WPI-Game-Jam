@@ -14945,8 +14945,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e1cdefb0eb80764aada6d2a6c46712c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 100
-  ammo: 0
+  range: 10
+  ammo: 50
   maxAmmo: 0
   cooldown: 30
   turret: {fileID: 2340902394010225992}
