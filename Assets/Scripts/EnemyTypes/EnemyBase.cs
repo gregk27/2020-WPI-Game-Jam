@@ -16,6 +16,7 @@ public class EnemyBase : MonoBehaviour
 
     protected IAstarAI ai;
 
+    private ParticleSystem particleSystem;
 
     //variables for getting right side of screen
     //TODO: remove this public variable
@@ -24,6 +25,7 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void Start() {
         //EnemySpawner spawner = enemySpawner.GetComponent<EnemySpawner>();
+        particleSystem = GetComponentInChildren<ParticleSystem>();
 
         collider = GetComponent<CircleCollider2D>();
         rightX = EnemySpawner.instance.rightX;
@@ -95,6 +97,16 @@ public class EnemyBase : MonoBehaviour
         //move right
         //transform.position += Vector3.right * speed * Time.deltaTime;
 
+    }
+
+    //bullets call this function when enemies get hit
+    public virtual void Hit() {
+        health--;
+
+        if (health == 0){
+            Remove();
+            particleSystem.Play();
+        }
     }
 
 }
