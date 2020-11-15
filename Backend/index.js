@@ -7,7 +7,7 @@ var app = express();
 var secrets = require("./secrets");
 
 // Unlock configuration
-const unlocks = JSON.parse(fs.readFileSync("./unlocks.json"));
+const progression = JSON.parse(fs.readFileSync("./progression.json"));
 
 // Index of the next unlock
 var nextUnlock=0;
@@ -47,13 +47,20 @@ app.get("/status", (req, res)=>{
  * @type {currentScore:number, nextScore:number}
  */
 async function getUnlockScore(){
-    let unlock = unlocks.unlocks[nextUnlock];
+    let unlock = progression.unlocks[nextUnlock];
 
     // Get total score and number of entries above cutoff score
     let data = (await query("SELECT SUM(score), COUNT(*) from scores WHERE score > ?", [unlock.baseScore * unlock.scaleFactor]))[0];
-  
+    
     // Calculate next unlock score based on entry count and scaling factor
     let nextScore = (unlock.baseScore * Math.floor(data["COUNT(*)"] * unlock.scaleFactor + 1));
+
+    // If the next level has been unlocked, update and recurr
+    if(data["SUM(score)"] > nextScore){
+        nextUnlock ++;
+        console.log("Recurring "+nextUnlock);
+        return getUnlockScore();
+    }
 
     return {currentScore:data["SUM(score)"], nextScore};
 }
@@ -94,5 +101,9 @@ app.get("/scoreData", async (req, res)=>{
 
     res.json({currentScore:data.currentScore, nextUnlock, nextScore:data.nextScore, top})
 });
+
+app.get("/progression", async(req, res)=>{
+    res.json(progression);
+})
 
 console.log("Hello world!");

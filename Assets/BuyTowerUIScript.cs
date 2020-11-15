@@ -13,19 +13,33 @@ public class BuyTowerUIScript : MonoBehaviour
 
     // Start is called before the first frame update
     void Start() {
-        
+        towerImage.sprite = towerIcons[thisTower];
     }
 
     // Update is called once per frame
     void Update() {
-
+        if (Input.GetKey(KeyCode.RightArrow)) {
+            NextTower();
+        }
+        if (Input.GetKey(KeyCode.LeftArrow)) {
+            PreviousTower();
+        }
+        
     }
 
     public void NextTower() {
-
+        thisTower++;
+        if(thisTower == towerIcons.Count) {
+            thisTower = 0;
+        }
+        towerImage.sprite = towerIcons[thisTower];
     }
 
     public void PreviousTower() {
-
+        thisTower--;
+        if (thisTower == -1) {
+            thisTower = towerIcons.Count - 1;
+        }
+        towerImage.sprite = towerIcons[thisTower];
     }
 }
