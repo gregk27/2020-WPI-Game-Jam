@@ -7,6 +7,7 @@ public class bulletBase : MonoBehaviour
     //EnemyBase targetEnemyScript;
     Rigidbody2D rb2d = new Rigidbody2D();
     public int speed;
+    public int damage;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,7 @@ public class bulletBase : MonoBehaviour
         {
             //targetEnemyScript = other.gameObject.GetComponent<EnemyBase>();
             //targetEnemyScript.health--;
-            other.GetComponent<EnemyBase>().Hit();
+            other.GetComponent<EnemyBase>().Hit(damage);
             GameObject.Destroy(gameObject);
         }
         else
