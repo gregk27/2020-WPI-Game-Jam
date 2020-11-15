@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,37 +39,42 @@ public class TurretBase : MonoBehaviour
     void Update()
     {
         shotTimer--;
-        
-        if(targetEnemy == null || Vector2.Distance(transform.position, targetEnemy.transform.position) > range)
+
+        targetEnemy = null;
+
+        RaycastHit2D hit;
+
+        foreach(Transform t in enemyManager.transform)
         {
-            targetEnemy = enemyManager.transform.GetChild(0).gameObject;
-            foreach (Transform child in enemyManager.transform)
+            float dist = Vector2.Distance(transform.position, t.position);
+            if(dist < range)
             {
-                if (Vector2.Distance(transform.position, child.position) < Vector2.Distance(transform.position, targetEnemy.transform.position))
+                if(targetEnemy == null || t.position.x > targetEnemy.transform.position.x)
                 {
-                    targetEnemy = child.gameObject;
+                    // Check that you can hit. Mask removes bullets from check
+                    hit = Physics2D.Raycast(transform.position, t.position - transform.position, range, ~(1<<11));
+                    // Check that the enemy is in line of sight
+                    if (hit.transform.tag == "Enemy")
+                    {
+                        targetEnemy = t.gameObject;
+                    }
                 }
             }
-            
         }
 
-        aim();
-
-        //RaycastHit2D thingItHit = Physics2D.Raycast(aimOrigin.transform.position, targetEnemy.transform.position, range);
-
-        /*if(thingItHit.collider.gameObject == targetEnemy)
+        if(targetEnemy != null)
         {
             aim();
-        }
-        */
-        if(hasTarget && ammo > 0)
+            if(ammo > 0)
+            {
+                turretAnim.SetTrigger("hasTarget");
+                fire();
+            } else {
+                reload();
+            }
+        } else
         {
-            turretAnim.SetTrigger("hasTarget");
-            //aim();
-        }
-        else if(hasTarget && ammo <= 0)
-        {
-            reload();
+            turret.transform.rotation = Quaternion.AngleAxis(0, Vector3.forward);
         }
     }
 
@@ -83,13 +89,11 @@ public class TurretBase : MonoBehaviour
 
         // Get direction vector
         Vector2 dir = enemyPos - turretPos;
-        Debug.DrawLine(turretPos, enemyPos);
         // Get target angle
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
         // Rotate turret to angle
         turret.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        fire();
     }
 
     void fire()

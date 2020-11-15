@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5839430829161128219}
   - component: {fileID: 6101721449569937751}
   - component: {fileID: 7053422242806661772}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PeaShooterBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
